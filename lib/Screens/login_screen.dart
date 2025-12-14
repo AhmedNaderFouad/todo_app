@@ -14,8 +14,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final ImagePicker picker = ImagePicker();
   XFile? photo;
 
-  TextEditingController nameController = TextEditingController();
-
   void takeImageFromCamera() async {
     photo = await picker.pickImage(source: ImageSource.camera);
     setState(() {});
@@ -26,98 +24,74 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() {});
   }
 
+  final border = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(15),
+    borderSide: BorderSide(color: Colors.lightBlue, width: 2),
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
-
-      body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                child: IntrinsicHeight(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Visibility(
-                          visible: photo == null,
-                          replacement: CircleAvatar(
-                            radius: 120,
-                            backgroundColor: Colors.black,
-                            backgroundImage: Image.file(
-                              File(photo?.path ?? ""),
-                            ).image,
-                          ),
-                          child: CircleAvatar(
-                            radius: 120,
-                            backgroundColor: Colors.black,
-                            child: Icon(
-                              Icons.person,
-                              size: 170,
-                              color: Colors.blue,
-                            ),
-                          ),
-                        ),
-
-                        const SizedBox(height: 25),
-
-                        AppButton(
-                          title: "Take a Picture From Camera",
-                          onPressed: () {
-                            takeImageFromCamera();
-                          },
-                        ),
-
-                        const SizedBox(height: 25),
-
-                        AppButton(
-                          title: "Upload Photo From Gallery",
-                          onPressed: () {
-                            chooseImageFromGallery();
-                          },
-                        ),
-
-                        const SizedBox(height: 25),
-
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: Colors.blueAccent,
-                              width: 1.5,
-                            ),
-                          ),
-                          child: TextField(
-                            controller: nameController,
-                            decoration: const InputDecoration(
-                              border: InputBorder.none,
-                              hintText: "Enter Your Name",
-                              hintStyle: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        SizedBox(height: 25),
-                        AppButton(title: "Done", onPressed: () {}),
-                        SizedBox(height: 30),
-                        const SizedBox(height: 30),
-                      ],
-                    ),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Visibility(
+                  visible: photo == null,
+                  replacement: CircleAvatar(
+                    radius: 120,
+                    backgroundColor: Colors.black,
+                    backgroundImage: Image.file(File(photo?.path ?? "")).image,
+                  ),
+                  child: CircleAvatar(
+                    radius: 120,
+                    backgroundColor: Colors.black,
+                    child: Icon(Icons.person, size: 170, color: Colors.blue),
                   ),
                 ),
-              ),
-            );
-          },
+
+                SizedBox(height: 25),
+
+                AppButton(
+                  title: "Take a Picture From Camera",
+                  onPressed: () {
+                    takeImageFromCamera();
+                  },
+                ),
+
+                SizedBox(height: 25),
+
+                AppButton(
+                  title: "Upload Photo From Gallery",
+                  onPressed: () {
+                    chooseImageFromGallery();
+                  },
+                ),
+
+                SizedBox(height: 15),
+                Divider(thickness: 2, color: Colors.lightBlue),
+                SizedBox(height: 20),
+
+                TextField(
+                  onTapUpOutside: (value) {
+                    FocusScope.of(context).unfocus();
+                  },
+                  decoration: InputDecoration(
+                    labelText: "Enter Your Name",
+                    border: border,
+                    enabledBorder: border,
+                    focusedBorder: border,
+                    disabledBorder: border,
+                  ),
+                ),
+                SizedBox(height: 20),
+                AppButton(title: "Confirm", onPressed: () {}),
+              ],
+            ),
+          ),
         ),
       ),
     );

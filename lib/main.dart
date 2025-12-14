@@ -5,8 +5,3 @@ import 'package:todo_app/todo.dart';
 void main() {
   runApp(Todo());
 }
-
-
-
-
-
