@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:todo_app/Screens/home_screen.dart';
 import 'package:todo_app/custom_widgets/app_button.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -88,7 +89,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 SizedBox(height: 20),
-                AppButton(title: "Confirm", onPressed: () {}),
+                AppButton(title: "Confirm", onPressed: () {
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeScreen()), (e)=>false);
+                }),
               ],
             ),
           ),
